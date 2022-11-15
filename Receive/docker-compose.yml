@@ -1,0 +1,32 @@
+version: '3.4'
+
+services:
+  receive:
+    image: ${DOCKER_REGISTRY-}receive
+    build:
+      context: .
+      dockerfile: Receive/Dockerfile
+
+  send:
+    image: ${DOCKER_REGISTRY-}send
+    build:
+      context: .
+      dockerfile: Send/Dockerfile
+
+  message:
+    image: ${DOCKER_REGISTRY-}message
+    build:
+      context: .
+      dockerfile: Message/Dockerfile
+
+  rabbitmq:
+    container_name: rabbitmq_test
+    image: rabbitmq:3-management-alpine
+    restart: always
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      - "RABBITMQ_DEFAULT_PASS=guest"
+      - "RABBITMQ_DEFAULT_USER=guest"
+
